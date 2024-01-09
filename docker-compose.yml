@@ -1,0 +1,13 @@
+version: "3.9"
+services:
+  #https://hub.docker.com/_/redis
+  redis:
+    container_name: gigs_redis_container
+    image: redis:alpine
+    restart: always
+    ports:
+      - "6379:6379"
+    command: redis-server --loglevel warning
+    volumes:
+      # ./docker-volumes/cache is the directory in host machine which will be used to store data, /data is the directory of the container
+      - ./docker-volumes/cache:/data
