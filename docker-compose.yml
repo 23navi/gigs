@@ -1,7 +1,7 @@
 version: "3.9"
 services:
-  #https://hub.docker.com/_/redis
   redis:
+    #https://hub.docker.com/_/redis
     container_name: gigs_redis_container
     image: redis:alpine
     restart: always
@@ -11,3 +11,43 @@ services:
     volumes:
       # ./docker-volumes/cache is the directory in host machine which will be used to store data, /data is the directory of the container
       - ./docker-volumes/cache:/data
+  mongo:
+    #https://hub.docker.com/_/mongo
+    container_name: gigs_mongodb_container
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    #We don't need username and pwd for local setup
+    # environment:
+    #   MONGO_INITDB_ROOT_USERNAME: root
+    #   MONGO_INITDB_ROOT_PASSWORD: 12345678
+    volumes:
+      - ./docker-volumes/data:/data/db
+  mysql:
+    container_name: gigs_mysql_container
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      - MYSQL_USER=navi
+      - MYSQL_DATABASE=gigs_auth
+      - MYSQL_ROOT_PASSWORD=navi1234
+      - MYSQL_PASSWORD=navi4321
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./docker-volumes/mysql:/var/lib/mysql
+
+  postgres:
+    container_name: gigs_postgres_container
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=navi
+      - POSTGRES_PASSWORD=navi1234
+      - POSTGRES_DB=gigs_reviews
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./docker-volumes/postgres:/var/lib/postgresql
