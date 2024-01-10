@@ -1,0 +1,3 @@
+[submodule "gigs-shared"]
+	path = gigs-shared
+	url = https://github.com/navi-gigs/gigs-shared

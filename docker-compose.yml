@@ -38,7 +38,6 @@ services:
       - "3306:3306"
     volumes:
       - ./docker-volumes/mysql:/var/lib/mysql
-
   postgres:
     container_name: gigs_postgres_container
     image: postgres
@@ -51,7 +50,6 @@ services:
       - "5432:5432"
     volumes:
       - ./docker-volumes/postgres:/var/lib/postgresql
-
   rabbitmq:
     container_name: gigs_rabbitmq_container
     # This rabbitmq image provides both MQ and management console
@@ -66,7 +64,6 @@ services:
       # Management UI
       - "15672:15672"
       ## We are not going to have store for rabbitMQ
-
   elasticsearch:
     container_name: gigs_elasticsearch_container
     # https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html
@@ -92,6 +89,25 @@ services:
       - ./docker-volumes/elasticsearch-data:/usr/share/elasticsearch/data
     networks:
       - elastic
+  kibana:
+    container_name: gigs_kibana_container
+    image: docker.elastic.co/kibana/kibana:8.11.0
+    restart: always
+    environment:
+      - ELASTICSEARCH_HOSTS=["http://gigs_elasticsearch_container:9200"]
+      - ELASTICSEARCH_USERNAME=kibana_system
+      - ELASTICSEARCH_PASSWORD=kibana
+      - ELASTICSEARCH_SERVICEACCOUNT_TOKEN=AAEAAWVsYXN0aWMva2liYW5hL2pvYmJlci1raWJhbmE6N3BWZ0ItZWxSY21wMEJ0Y3ZKNTlHZw
+      - XPACK_FLEET_AGENTS_ELASTICSEARCH_HOSTS=["http://gigs_elasticsearch_container:9200"]
+    ports:
+      - 5601:5601
+    networks:
+      - elastic
+    volumes:
+      ## :ro stands for readonly
+      - ./kibana.yml/:/usr/share/kibana/config/kibana.yml:ro
+    depends_on:
+      - elasticsearch
 
 networks:
   elastic:
