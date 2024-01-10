@@ -51,3 +51,20 @@ services:
       - "5432:5432"
     volumes:
       - ./docker-volumes/postgres:/var/lib/postgresql
+
+  rabbitmq:
+    container_name: gigs_rabbitmq_container
+    # This rabbitmq image provides both MQ and management console
+    image: rabbitmq:3.13-rc-management-alpine
+    restart: always
+    environment:
+      - RABBITMQ_DEFAULT_USER=navi
+      - RABBITMQ_DEFAULT_PASS=navi1234
+    ports:
+      # AMQP protocol port
+      - "5672:5672"
+      # Management UI
+      - "15672:15672"
+      ## We are not going to have store for rabbitMQ
+
+ 
