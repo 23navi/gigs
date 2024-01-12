@@ -1,0 +1,3 @@
+To add git modules, have you repo else where, as soon we will register the gitmodule, it will create a copy inisde our root git modules
+
+git submodule add https://github.com/navi-gigs/common server/common
