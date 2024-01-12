@@ -4,3 +4,4 @@ secrets.md
 .DS_Store
 dist
 build
+.env
