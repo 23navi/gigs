@@ -4,3 +4,6 @@
 [submodule "server/services/notification-service"]
 	path = server/services/notification-service
 	url = https://github.com/navi-gigs/notification-service
+[submodule "server/common"]
+	path = server/common
+	url = https://github.com/navi-gigs/common
