@@ -1,0 +1,14 @@
+Command to create service user for elastic search with token for kibana to connect to
+
+curl -s -X POST -u elastic:navi2308 -H "Content-Type: application/json" http://localhost:9200/_security/user/kibana_system/_password -d "{\"password\":\"navi2308\"}"
+
+
+
+## Create service token (Think auth token for kibana to connect )
+
+bin/elasticsearch-service-tokens create elastic/kibana gigs-kibana
+
+
+## get the health of clusters
+
+curl -X GET "http://localhost:9200/_cluster/health"

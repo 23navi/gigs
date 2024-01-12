@@ -81,6 +81,7 @@ services:
       xpack.monitoring.collection.enabled: "true"
       xpack.security.enrollment.enabled: "true"
       xpack.security.authc.token.enabled: "true"
+      # default username will be elastic
       ELASTIC_PASSWORD: navi2308
     ports:
       - 9300:9300
@@ -95,9 +96,13 @@ services:
     restart: always
     environment:
       - ELASTICSEARCH_HOSTS=["http://gigs_elasticsearch_container:9200"]
-      - ELASTICSEARCH_USERNAME=kibana_system
-      - ELASTICSEARCH_PASSWORD=kibana
-      - ELASTICSEARCH_SERVICEACCOUNT_TOKEN=AAEAAWVsYXN0aWMva2liYW5hL2pvYmJlci1raWJhbmE6N3BWZ0ItZWxSY21wMEJ0Y3ZKNTlHZw
+
+      # We have super user named elastic, we created for elasticSearch but we are getting error connecting user super user admin as it's forbiden. So we will create another user
+      # - ELASTICSEARCH_USERNAME=kibana_system
+      # - ELASTICSEARCH_PASSWORD=kibana
+      - ELASTICSEARCH_USERNAME=elastic
+      - ELASTICSEARCH_PASSWORD=navi2308
+      - ELASTICSEARCH_SERVICEACCOUNT_TOKEN=AAEAAWVsYXN0aWMva2liYW5hL2dpZ3Mta2liYW5hOmZQb0RoWFBvVEpLaTZYQWttZnliTWc
       - XPACK_FLEET_AGENTS_ELASTICSEARCH_HOSTS=["http://gigs_elasticsearch_container:9200"]
     ports:
       - 5601:5601
@@ -112,3 +117,4 @@ services:
 networks:
   elastic:
     name: elastic
+## docker compose up -d <service-name>
