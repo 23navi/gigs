@@ -64,57 +64,60 @@ services:
       # Management UI
       - "15672:15672"
       ## We are not going to have store for rabbitMQ
-  elasticsearch:
-    container_name: gigs_elasticsearch_container
-    # https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
-    restart: always
-    environment:
-      ES_JAVA_OPTS: -Xmx1g -Xms1g
-      bootstrap.memory_lock: "true"
-      discovery.type: single-node
-      network.host: 0.0.0.0
-      transport.host: 127.0.0.1
-      http.host: 0.0.0.0
-      xpack.security.enabled: "true"
-      xpack.security.authc.api_key.enabled: "true"
-      xpack.monitoring.collection.enabled: "true"
-      xpack.security.enrollment.enabled: "true"
-      xpack.security.authc.token.enabled: "true"
-      # default username will be elastic
-      ELASTIC_PASSWORD: navi2308
-    ports:
-      - 9300:9300
-      - 9200:9200
-    volumes:
-      - ./docker-volumes/elasticsearch-data:/usr/share/elasticsearch/data
-    networks:
-      - elastic
-  kibana:
-    container_name: gigs_kibana_container
-    image: docker.elastic.co/kibana/kibana:8.11.0
-    restart: always
-    environment:
-      - ELASTICSEARCH_HOSTS=["http://gigs_elasticsearch_container:9200"]
 
-      # We have super user named elastic, we created for elasticSearch but we are getting error connecting user super user admin as it's forbiden. So we will create another user
-      # - ELASTICSEARCH_USERNAME=kibana_system
-      # - ELASTICSEARCH_PASSWORD=kibana
-      - ELASTICSEARCH_USERNAME=elastic
-      - ELASTICSEARCH_PASSWORD=navi2308
-      - ELASTICSEARCH_SERVICEACCOUNT_TOKEN=AAEAAWVsYXN0aWMva2liYW5hL2dpZ3Mta2liYW5hOmZQb0RoWFBvVEpLaTZYQWttZnliTWc
-      - XPACK_FLEET_AGENTS_ELASTICSEARCH_HOSTS=["http://gigs_elasticsearch_container:9200"]
-    ports:
-      - 5601:5601
-    networks:
-      - elastic
-    volumes:
-      ## :ro stands for readonly
-      - ./kibana.yml/:/usr/share/kibana/config/kibana.yml:ro
-    depends_on:
-      - elasticsearch
+## Elastic search and Kibana is not working on my system, will use cloud for it
+# elasticsearch:
+#   container_name: gigs_elasticsearch_container
+#   # https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html
+#   image: docker.elastic.co/elasticsearch/elasticsearch:8.10.0
+#   restart: always
+#   environment:
+#     ES_JAVA_OPTS: -Xmx1g -Xms1g
+#     bootstrap.memory_lock: "true"
+#     discovery.type: single-node
+#     # network.host: 0.0.0.0
+#     # transport.host: 127.0.0.1
+#     # http.host: 0.0.0.0
+#     xpack.security.enabled: "false"
+#     xpack.security.authc.api_key.enabled: "true"
+#     xpack.monitoring.collection.enabled: "true"
+#     xpack.security.enrollment.enabled: "true"
+#     # xpack.security.authc.token.enabled: "true"
+#     # default username will be elastic
+#     # ELASTIC_PASSWORD: navi2308
+#   ports:
+#     - 9300:9300
+#     - 9200:9200
+#   volumes:
+#     - ./docker-volumes/elasticsearch-data:/usr/share/elasticsearch/data
+#   networks:
+#     - elastic
+# kibana:
+#   container_name: gigs_kibana_container
+#   image: docker.elastic.co/kibana/kibana:7.17.16
+#   restart: always
+#   environment:
+#     - ELASTICSEARCH_HOSTS=["http://gigs_elasticsearch_container:9200"]
+
+#     # We have super user named elastic, we created for elasticSearch but we are getting error connecting user super user admin as it's forbiden. So we will create another user
+#     # - ELASTICSEARCH_USERNAME=kibana_system
+#     # - ELASTICSEARCH_PASSWORD=kibana
+#     # - ELASTICSEARCH_USERNAME=elastic
+#     # - ELASTICSEARCH_PASSWORD=navi2308
+#     # - ELASTICSEARCH_SERVICEACCOUNT_TOKEN=AAEAAWVsYXN0aWMva2liYW5hL2dpZ3Mta2liYW5hOmZQb0RoWFBvVEpLaTZYQWttZnliTWc
+#     # - XPACK_FLEET_AGENTS_ELASTICSEARCH_HOSTS=["http://gigs_elasticsearch_container:9200"]
+#   ports:
+#     - 5601:5601
+#   networks:
+#     - elastic
+#   volumes:
+#     ## :ro stands for readonly
+#     - ./kibana.yml/:/usr/share/kibana/config/kibana.yml:ro
+#   depends_on:
+#     - elasticsearch
 
 networks:
-  elastic:
-    name: elastic
+  {}
+  # elastic:
+  #   name: elastic
 ## docker compose up -d <service-name>
