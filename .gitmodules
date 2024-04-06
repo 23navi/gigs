@@ -5,3 +5,6 @@
 	path = server/services/notification-service
 	url = https://github.com/navi-gigs/notification-service
 
+[submodule "server/gigs-shared-new"]
+	path = server/gigs-shared-new
+	url = https://github.com/navi-gigs/gigs-shared-new
