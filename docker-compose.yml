@@ -1,4 +1,3 @@
-version: "3.9"
 services:
   redis:
     #https://hub.docker.com/_/redis
@@ -24,20 +23,6 @@ services:
     #   MONGO_INITDB_ROOT_PASSWORD: 12345678
     volumes:
       - ./docker-volumes/data:/data/db
-  mysql:
-    container_name: gigs_mysql_container
-    image: mysql
-    command: --default-authentication-plugin=mysql_native_password
-    restart: always
-    environment:
-      - MYSQL_USER=navi
-      - MYSQL_DATABASE=gigs_auth
-      - MYSQL_ROOT_PASSWORD=navi1234
-      - MYSQL_PASSWORD=navi4321
-    ports:
-      - "3306:3306"
-    volumes:
-      - ./docker-volumes/mysql:/var/lib/mysql
   postgres:
     container_name: gigs_postgres_container
     image: postgres
